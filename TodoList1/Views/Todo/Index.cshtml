@@ -1,12 +1,12 @@
-﻿@model List<TodoItem>
+﻿@model IEnumerable<TodoList1.Models.TodoItem>
 
 <div class="container">
     <h1>To-Do List</h1>
 
     <!-- Search Bar -->
-    <form class="d-flex" method="get" action="@Url.Action("ToggleCompletion")">
-        <input class="form-control me-sm-2" name="searchQuery" type="search" placeholder="Search" value="@ViewBag.SearchQuery">
-        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+    <form asp-controller="Todo" asp-action="Index" class="d-flex" >
+        <input class="form-control me-sm-2" name="searchString" placeholder="Search" >
+        <button class="btn btn-secondary my-2 my-sm-0" type="submit" value="Filter">Search</button>
     </form>
     <br/>
 
@@ -16,18 +16,18 @@
     <div id="addTaskForm" class="add-task-form hidden">
         <form asp-action="AddTodoItem" method="post">
             <div>
-                <label for="Title">Title:</label>
-                <input type="text" id="Title" name="Title" required />
+                <label class="col-form-label mt-4" for="Title">Title</label>
+                <input class="form-control" placeholder="Title" type="text" id="Title" name="Title" required />
             </div>
             <div>
-                <label for="Description">Description:</label>
-                <textarea id="Description" name="Description"></textarea>
+                <label class="form-label mt-4" for="Description">Description:</label>
+                <textarea class="form-control" id="Description" name="Description"></textarea>
             </div>
             <div>
-                <label for="DueDate">Due Date:</label>
-                <input type="date" id="DueDate" name="DueDate" required />
+                <label class="col-form-label mt-4" for="DueDate">Due Date:</label>
+                <input class="form-control" type="date" id="DueDate" name="DueDate" required />
             </div>
-            <button type="submit">Add To-Do</button>
+            <button class="btn btn-primary" type="submit">Add To-Do</button>
         </form>
     </div>
 
@@ -41,6 +41,7 @@
                 <th scope="col">Description</th>
                 <th scope="col">Due Date</th>
                 <th scope="col">Status</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
@@ -66,8 +67,8 @@
                         </form>
 
                     </td>
-                    <td> <button type="button" class="btn btn-primary">Edit</button></td>|
-                    <td> <button type="button" class="btn btn-primary">Delete</button></td>
+                    <td> <a type="button" class="btn btn-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
+                    <td> <a type="button" class="btn btn-primary btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a></td>
                 </tr>
             }
         </tbody>
